@@ -31,11 +31,11 @@ module VimColors
 
     def initialize(s = nil, r: 0, g: 0, b: 0)
       if s
-        s.sub!("#", "")
-        raise ArgumentError if s.length != 6
-        @r = s[0..1]
-        @g = s[2..3]
-        @b = s[4..5]
+        _s = s.sub("#", "")
+        raise ArgumentError if _s.length != 6
+        @r = _s[0..1]
+        @g = _s[2..3]
+        @b = _s[4..5]
       else
         @r = r
         @g = g

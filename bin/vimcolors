@@ -1,38 +1,25 @@
 #!/usr/bin/env ruby
 
-require "pry"
-require_relative "#{ File.dirname(__FILE__) }/../../lib/vimcolors"
+require_relative "#{ File.dirname(File.realpath(__FILE__)) }/../lib/vimcolors"
 
-COLORS = {
-  base0:   "#0c141f",
-  base1:   "#091f2e",
-  base2:   "#152730",
-  base3:   "#2f404c",
-  base4:   "#52758C",
-  base5:   "#6DA0B4",
-  base6:   "#7f9ea8",
-  base7:   "#D9E3E6",
-  red:     "#ff740c",
-  orange:  "#f58c4b",
-  yellow:  "#f8e420",
-  magenta: "#cb15c9",
-  violet:  "#4e5166",
-  blue:    "#6f15cb",
-  cyan:    "#6fc3df",
-  green:   "#00ff00",
-}
+cterm = nil
+colors = []
 
-mycolors = {}
-original = nil
-COLORS.to_a.each { |e| mycolors[e[0]] = VimColors::HexColor.new(e[1]).to_rgb }
+if ARGV.length > 0
+  ARGV.each do |a|
+    colors << a
+  end
+else
+  colors = $stdin.read.split("\n")
+end
 
-mycolors.each_pair do |name, my|
+colors.each do |hex_str|
+  hex = VimColors::HexColor.new(hex_str)
+
   VimColors.cterm_colors.each do |t|
-    if my.is_similar?(t, 20)
-      original = VimColors.find_by_cterm(t.cterm)
-      printf "%s %s: %s\n", name, my.to_hex, JSON.dump(t.original)
-      #puts "#{ hex }: #{ b } => #{ t.cterm } #{ t } (#{ t.to_hex })"
+    if hex.to_rgb.is_similar?(t, 20)
+      cterm = VimColors.find_by_cterm(t.cterm)
+      printf "%s: %s\n", hex, JSON.dump(t.original)
     end
   end
 end
-#binding.pry
