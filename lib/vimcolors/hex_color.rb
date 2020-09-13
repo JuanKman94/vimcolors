@@ -43,11 +43,6 @@ module VimColors
       end
     end
 
-    def r
-      if @r == 0 then "00"
-      else @r; end
-    end
-
     # Red, green, blue color components getters.
     #
     # It's written this way solely to DRY the "0" validation
