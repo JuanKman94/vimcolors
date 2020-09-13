@@ -1,0 +1,9 @@
+*.gem
+
+# vim's swap files
+.*.swp
+/doc
+/.yardoc/
+*.html
+.bundle
+vendor
